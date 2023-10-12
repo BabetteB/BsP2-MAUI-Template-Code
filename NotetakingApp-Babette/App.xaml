@@ -1,0 +1,25 @@
+﻿<?xml version = "1.0" encoding = "UTF-8" ?>
+<Application xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:NotetakingApp_Babette"
+             x:Class="NotetakingApp_Babette.App">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Resources/Styles/Colors.xaml" />
+                <ResourceDictionary Source="Resources/Styles/Styles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <Style x:Key="EditorTextStyle" TargetType="Editor">
+                <Setter Property="TextColor" Value="#825027"/>
+                <Setter Property="FontAttributes" Value="Bold" />
+            </Style>
+
+            <Style x:Key="BtnStyle" TargetType="Button">
+                <Setter Property="HeightRequest" Value="50" />
+                <Setter Property="Background" Value="#C69955" />
+                <Setter Property="TextColor" Value="White" />
+            </Style>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>
