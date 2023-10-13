@@ -1,44 +1,51 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
+<!-- Define the ContentPage, which serves as the main view for displaying notes. -->
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:model="clr-namespace:NotetakingApp_Babette.Model"
              x:Class="NotetakingApp_Babette.Pages.MainPage">
 
+    <!-- Use a Grid as the main layout with three rows. The background color is set to #F1EFE7. -->
     <Grid RowDefinitions="Auto, *, Auto" Background="#F1EFE7">
 
+        <!-- Display the app's logo image on the first row of the Grid. -->
         <Image Grid.Row="0"
-                Source="logo.png"
-                HeightRequest="60"
-                WidthRequest="240"
-                HorizontalOptions="Center" />
+               Source="logo.png"
+               HeightRequest="60"
+               WidthRequest="240"
+               HorizontalOptions="Center" />
 
+        <!-- Use a ScrollView for the second row to ensure the content can be scrolled if it exceeds the page's height. -->
         <ScrollView Grid.Row="1">
-            <VerticalStackLayout
-            Spacing="48"
-            Padding="12"
-            
-            VerticalOptions="Center">
+            <!-- Use a VerticalStackLayout to vertically arrange UI elements, with set spacing and padding. -->
+            <VerticalStackLayout Spacing="48"
+                                 Padding="12"
+                                 VerticalOptions="Center">
 
-                <Label
-                Text="All Notes"
-                TextColor="#C69955"
-                FontSize="32"
-                HorizontalOptions="Center" />
+                <!-- Display a title label for the notes section. -->
+                <Label Text="All Notes"
+                       TextColor="#C69955"
+                       FontSize="32"
+                       HorizontalOptions="Center" />
 
-                <CollectionView x:Name = "notesView"
-                      HorizontalOptions="Center"
-                         >
+                <!-- Use a CollectionView named 'notesView' to display a list of notes. -->
+                <CollectionView x:Name="notesView"
+                                HorizontalOptions="Center">
                     <CollectionView.ItemTemplate>
+                        <!-- Define the template for each note using a DataTemplate. -->
                         <DataTemplate x:DataType="model:Note">
+                            <!-- Use a HorizontalStackLayout to layout the content of each note item. -->
                             <HorizontalStackLayout Padding="8" 
-                                               Background="#FFD8FB"
-                                               WidthRequest="300"
-                                               HeightRequest="40"
-                                               Margin="0, 0, 0, 10"
-                                               >
+                                                   Background="#FFD8FB"
+                                                   WidthRequest="300"
+                                                   HeightRequest="40"
+                                                   Margin="0, 0, 0, 10">
+
+                                <!-- Display the title of the note. -->
                                 <Label Text="{Binding Title}"
-                                   TextColor="#825027" 
-                                   VerticalOptions="Center">
+                                       TextColor="#825027" 
+                                       VerticalOptions="Center">
+                                    <!-- Add a gesture recognizer to the label to detect when the user taps on it. -->
                                     <Label.GestureRecognizers>
                                         <TapGestureRecognizer Tapped="OnNoteSelected" NumberOfTapsRequired="1" />
                                     </Label.GestureRecognizers>
@@ -51,7 +58,9 @@
             </VerticalStackLayout>
         </ScrollView>
 
+        <!-- Display a button on the third row to allow users to add a new note. -->
         <Button Grid.Row="2"
+                Margin="24"
                 x:Name="AddNewNoteBtn"
                 Text="Add New Note"
                 Style="{StaticResource BtnStyle}"
@@ -60,9 +69,5 @@
                 Clicked="OnAddNewNoteClickedAsync"
                 HorizontalOptions="Center" />
 
-
     </Grid>
-
-    
-
 </ContentPage>

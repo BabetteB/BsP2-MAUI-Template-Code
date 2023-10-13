@@ -1,45 +1,58 @@
+<!-- The XML declaration specifying the version and encoding. -->
 <?xml version="1.0" encoding="utf-8" ?>
+
+<!-- Root element for the MakeNotePage content, inheriting from ContentPage class provided by MAUI. -->
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="NotetakingApp_Babette.Pages.MakeNotePage"
              Title="MakeNote">
+    <!-- The title of the page that appears on the navigation bar. -->
 
+    <!-- Set up a Grid layout with three row definitions and a consistent padding and background color. The Grid allows for structured placement of child elements. -->
     <Grid RowDefinitions="Auto, *, Auto" Padding="12" Background="#F1EFE7" RowSpacing="36">
-        <Image
-            Grid.Row="0"
+
+        <!-- Logo image positioned at the top of the page. Its size and positioning are explicitly set. -->
+        <Image Grid.Row="0"
                 Source="logo.png"
                 HeightRequest="60"
                 WidthRequest="240"
                 HorizontalOptions="Center" />
 
+        <!-- A vertical stack layout containing a scrollable area for entering the note's title and content. -->
         <VerticalStackLayout Grid.Row="1">
             <ScrollView>
                 <VerticalStackLayout Padding="12" Spacing="36">
-                    <Entry x:Name="titleEntry"
-                    TextColor="#825027"
-                    FontAttributes="Bold"
-                    Placeholder="Title" />
 
+                    <!-- Entry field for the note's title with specific text color and placeholder text. -->
+                    <Entry x:Name="titleEntry"
+                           TextColor="#825027"
+                           FontAttributes="Bold"
+                           Placeholder="Title" />
+
+                    <!-- Larger text area (Editor) for the note's main content. Uses a predefined style and has specific height. -->
                     <Editor x:Name="contentEditor"
-                        Style="{StaticResource EditorTextStyle}"
-                        Placeholder="Enter your response here"
-                        HeightRequest="250" />
+                            Style="{StaticResource EditorTextStyle}"
+                            Placeholder="Enter your response here"
+                            HeightRequest="250" />
                 </VerticalStackLayout>
             </ScrollView>
         </VerticalStackLayout>
 
+        <!-- A horizontal layout for two action buttons: Back and Delete. Positioned at the bottom of the page. -->
         <HorizontalStackLayout HorizontalOptions="Center" Spacing="16" Grid.Row="2">
-            <Button Text="Back"
-                        WidthRequest="130"
-                        Clicked="OnBackButtonClicked"
-                        Style="{StaticResource BtnStyle}"/>
 
+            <!-- Back button: Navigates back to the previous page and applies any note changes made. -->
+            <Button Text="Back"
+                    WidthRequest="130"
+                    Clicked="OnBackButtonClicked"
+                    Style="{StaticResource BtnStyle}"/>
+
+            <!-- Delete button: Deletes the current note from the collection. -->
             <Button Text="Delete"
-                    
-                        WidthRequest="130"
-                        Clicked="OnDeleteButtonClicked"
-                        Style="{StaticResource BtnStyle}"/>
+                    WidthRequest="130"
+                    Clicked="OnDeleteButtonClicked"
+                    Style="{StaticResource BtnStyle}"/>
         </HorizontalStackLayout>
     </Grid>
-    
+
 </ContentPage>
