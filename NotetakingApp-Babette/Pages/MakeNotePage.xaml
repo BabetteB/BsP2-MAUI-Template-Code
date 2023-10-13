@@ -3,38 +3,43 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="NotetakingApp_Babette.Pages.MakeNotePage"
              Title="MakeNote">
-    <ScrollView>
-        <VerticalStackLayout Padding="12" Background="#F1EFE7" Spacing="16">
-            <Image
+
+    <Grid RowDefinitions="Auto, *, Auto" Padding="12" Background="#F1EFE7" RowSpacing="36">
+        <Image
+            Grid.Row="0"
                 Source="logo.png"
                 HeightRequest="60"
                 WidthRequest="240"
                 HorizontalOptions="Center" />
-            
-            <VerticalStackLayout Padding="12" Spacing="36">
-                <Entry x:Name="titleEntry"
+
+        <VerticalStackLayout Grid.Row="1">
+            <ScrollView>
+                <VerticalStackLayout Padding="12" Spacing="36">
+                    <Entry x:Name="titleEntry"
                     TextColor="#825027"
                     FontAttributes="Bold"
                     Placeholder="Title" />
 
-                <Editor x:Name="contentEditor"
+                    <Editor x:Name="contentEditor"
                         Style="{StaticResource EditorTextStyle}"
                         Placeholder="Enter your response here"
                         HeightRequest="250" />
-            </VerticalStackLayout>
-
-            <HorizontalStackLayout HorizontalOptions="Center" Spacing="16">
-                <Button Text="Back"
-                        WidthRequest="130"
-                        Clicked="OnBackBtnClicked"
-                        Style="{StaticResource BtnStyle}"/>
-
-                <Button Text="Delete"
-                        WidthRequest="130"
-                        Clicked="OnDeleteBtnClicked"
-                        Style="{StaticResource BtnStyle}"/>
-            </HorizontalStackLayout>
-            
+                </VerticalStackLayout>
+            </ScrollView>
         </VerticalStackLayout>
-    </ScrollView>
+
+        <HorizontalStackLayout HorizontalOptions="Center" Spacing="16" Grid.Row="2">
+            <Button Text="Back"
+                        WidthRequest="130"
+                        Clicked="OnBackButtonClicked"
+                        Style="{StaticResource BtnStyle}"/>
+
+            <Button Text="Delete"
+                    
+                        WidthRequest="130"
+                        Clicked="OnDeleteButtonClicked"
+                        Style="{StaticResource BtnStyle}"/>
+        </HorizontalStackLayout>
+    </Grid>
+    
 </ContentPage>

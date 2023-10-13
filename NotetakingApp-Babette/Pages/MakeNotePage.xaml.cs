@@ -1,98 +1,47 @@
 using NotetakingApp_Babette.Model;
+using NotetakingApp_Babette.ViewModels;
 
-namespace NotetakingApp_Babette.Pages;
-
-[QueryProperty(nameof(NoteToDisplay), "SelectedNote")]
-[QueryProperty(nameof(IsNewNoteParam), "IsNewNote")]
-public partial class MakeNotePage : ContentPage
+namespace NotetakingApp_Babette.Pages
 {
-    public static event Action<Note> NoteDeleted;
-    public bool IsNewNote { get; set; } = true;
-
-
-    public MakeNotePage()
-	{
-		InitializeComponent();
-
-    }
-
-    public string IsNewNoteParam
+    public partial class MakeNotePage : ContentPage
     {
-        set
+        private readonly NoteViewModel viewModel;
+
+        public MakeNotePage(NoteViewModel viewModel)
         {
-            IsNewNote = bool.Parse(value);
+            InitializeComponent();
+            this.viewModel = viewModel;
+            BindingContext = this.viewModel;
+
+            // Set fields based on CurrentNote
+            titleEntry.Text = viewModel.CurrentNote?.Title;
+            contentEditor.Text = viewModel.CurrentNote?.Content;
         }
-    }
 
-
-    public Note NoteToDisplay
-    {
-        set { DisplayCurrentNote(value); }
-    }
-
-
-	public static async void GoToMainPage()
-	{
-        await Shell.Current.GoToAsync("//MainPage");
-    }
-
-    protected override void OnAppearing()
-    {
-        base.OnAppearing();
-
-    }
-
-    private void DisplayCurrentNote(Note note)
-    {
-        if (note != null)
+        private async void OnBackButtonClicked(object sender, EventArgs e)
         {
-            titleEntry.Text = note.Title;
-            contentEditor.Text = note.Content;
-        }
-    }
-
-    public void OnDeleteBtnClicked(object sender, EventArgs args)
-    {
-        if (!IsNewNote) // Only trigger the delete if it's not a new note
-        {
-            var noteToDelete = new Note
+            if (viewModel.CurrentNote == null)
             {
-                Title = titleEntry.Text.Trim(),
-                Content = contentEditor.Text.Trim(),
-            };
-            NoteDeleted?.Invoke(noteToDelete);
-        }
-        GoToMainPage();
-    }
+                // Just to ensure we have a note to work with. 
+                // Ideally, this should never be the case because of the MainPage setup.
+                return;
+            }
 
-    public void OnBackBtnClicked(object sender, EventArgs args)
-    {
-        var note = new Note
-        {
-            Title = titleEntry.Text.Trim(),
-            Content = contentEditor.Text.Trim(),
-        };
+            viewModel.CurrentNote.Title = titleEntry.Text;
+            viewModel.CurrentNote.Content = contentEditor.Text;
 
-        if (IsNewNote) // If it's a new note, add it
-        {
-            if (!string.IsNullOrEmpty(note.Title) || !string.IsNullOrEmpty(note.Content))
-                MessagingCenter.Send(this, "AddNote", note);
-        }
-        else // If it's an existing note, update it
-        {
-            // Logic to update the note in the list goes here.
-            // For the sake of simplicity, the code currently replaces the old note with a new one. 
-            // In a more complex application, you might prefer a database update or a more sophisticated mechanism.
-            MessagingCenter.Send(this, "UpdateNote", note);
+            viewModel.AddOrUpdateNote(viewModel.CurrentNote);
+
+            await Navigation.PopAsync();
         }
 
-        GoToMainPage();
+        private async void OnDeleteButtonClicked(object sender, EventArgs e)
+        {
+            if (viewModel.CurrentNote != null)
+            {
+                viewModel.DeleteCurrentNote();
+                await Navigation.PopAsync();
+            }
+        }
     }
-
-    protected override void OnDisappearing()
-    {
-        base.OnDisappearing();
-        MessagingCenter.Unsubscribe<MakeNotePage, Note>(this, "AddNote");
-    }
-
 }
